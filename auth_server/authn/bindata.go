@@ -212,7 +212,7 @@ var _dataGoogle_authTmpl = []byte(`<html itemscope itemtype="http://schema.org/A
 				var id_token = auth2.currentUser.get().getAuthResponse().id_token;
 				$.ajax({
 					type: 'POST',
-					url: '/google_auth',
+					url: 'google_auth',
 					contentType: 'application/json; charset=utf-8',
 					processData: false,
 					data: JSON.stringify({'action': 'check', 'token': id_token}),
@@ -244,7 +244,7 @@ var _dataGoogle_authTmpl = []byte(`<html itemscope itemtype="http://schema.org/A
 				console.log(authResult);
 				$.ajax({
 					type: 'POST',
-					url: '/google_auth',
+					url: 'google_auth',
 					contentType: 'application/json; charset=utf-8',
 					processData: false,
 					data: JSON.stringify({'action': 'sign_in', 'code': authResult['code']}),
@@ -270,7 +270,7 @@ var _dataGoogle_authTmpl = []byte(`<html itemscope itemtype="http://schema.org/A
 				// Perform server-side sign out.
 				$.ajax({
 					type: 'POST',
-					url: '/google_auth',
+					url: 'google_auth',
 					contentType: 'application/json; charset=utf-8',
 					data: JSON.stringify({'action': 'sign_out', 'token': id_token}),
 					processData: false,
@@ -302,7 +302,7 @@ func dataGoogle_authTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "data/google_auth.tmpl", size: 2817, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "data/google_auth.tmpl", size: 2814, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
