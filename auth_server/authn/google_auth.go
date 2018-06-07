@@ -31,12 +31,13 @@ import (
 )
 
 type GoogleAuthConfig struct {
-	Domain           string `yaml:"domain,omitempty"`
-	ClientId         string `yaml:"client_id,omitempty"`
-	ClientSecret     string `yaml:"client_secret,omitempty"`
-	ClientSecretFile string `yaml:"client_secret_file,omitempty"`
-	TokenDB          string `yaml:"token_db,omitempty"`
-	HTTPTimeout      int    `yaml:"http_timeout,omitempty"`
+	Domain           string            `yaml:"domain,omitempty"`
+	ClientId         string            `yaml:"client_id,omitempty"`
+	ClientSecret     string            `yaml:"client_secret,omitempty"`
+	ClientSecretFile string            `yaml:"client_secret_file,omitempty"`
+	TokenDB          string            `yaml:"token_db,omitempty"`
+	RedisTokenDB     *RedisStoreConfig `yaml:"redis_token_db,omitempty"`
+	HTTPTimeout      int               `yaml:"http_timeout,omitempty"`
 }
 
 type GoogleAuthRequest struct {
@@ -125,11 +126,28 @@ type GoogleAuth struct {
 }
 
 func NewGoogleAuth(c *GoogleAuthConfig) (*GoogleAuth, error) {
-	db, err := NewTokenDB(c.TokenDB)
-	if err != nil {
-		return nil, err
+	var db TokenDB
+	var err error
+
+	if c.RedisTokenDB != nil {
+		glog.Infof("Google auth redis token DB at %s", c.RedisTokenDB)
+		if len(c.RedisTokenDB.URLs) > 0 {
+			if c.RedisTokenDB.MasterName != "" {
+				db, err = NewRedisSentinelTokenDB(c.RedisTokenDB.URLs, c.RedisTokenDB.MasterName, c.RedisTokenDB.EncryptKey)
+			} else {
+				db, err = NewRedisClusterTokenDB(c.RedisTokenDB.URLs, c.RedisTokenDB.EncryptKey)
+			}
+		} else {
+			db, err = NewRedisTokenDB(c.RedisTokenDB.URL, c.RedisTokenDB.EncryptKey)
+		}
+	} else {
+		db, err = NewTokenDB(c.TokenDB)
+		if err != nil {
+			return nil, err
+		}
+		glog.Infof("Google auth token DB at %s", c.TokenDB)
 	}
-	glog.Infof("Google auth token DB at %s", c.TokenDB)
+
 	return &GoogleAuth{
 		config: c,
 		db:     db,

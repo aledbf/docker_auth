@@ -133,7 +133,7 @@ func dataGithub_authTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "data/github_auth.tmpl", size: 2946, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "data/github_auth.tmpl", size: 2946, mode: os.FileMode(420), modTime: time.Unix(1528324552, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -195,7 +195,7 @@ func dataGithub_auth_resultTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "data/github_auth_result.tmpl", size: 1094, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "data/github_auth_result.tmpl", size: 1094, mode: os.FileMode(420), modTime: time.Unix(1528324552, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -302,7 +302,7 @@ func dataGoogle_authTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "data/google_auth.tmpl", size: 2814, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "data/google_auth.tmpl", size: 2814, mode: os.FileMode(420), modTime: time.Unix(1528327361, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
