@@ -34,11 +34,11 @@ build-release: ca-certificates.crt
 	  $(BUILDER_IMAGE) sh -x -c "\
 	    apk update && apk add git make py2-pip && pip install GitPython && \
 	    cd /go/src/github.com/cesanta/docker_auth/auth_server && \
-	    go get -v -u github.com/kardianos/govendor && \
-	    umask 0 && govendor sync -v && \
-	    go install -v github.com/cesanta/docker_auth/auth_server/vendor/github.com/jteeuwen/go-bindata/go-bindata && \
+	    go get -u github.com/jteeuwen/go-bindata/... && \
+		go get -u github.com/golang/dep/cmd/dep && \
+		dep ensure -v && \
 	    make generate && \
-	    CGO_ENABLED=0 go build -v --ldflags=--s"
+	    CGO_ENABLED=0 go build -a -installsuffix cgo --ldflags='-s -w'"
 	@echo === Built version $$(cat version.txt) ===
 
 auth_server:
